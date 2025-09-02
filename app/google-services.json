@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "719931560353",
+    "firebase_url": "https://baubap-challenge-2bf93-default-rtdb.firebaseio.com",
+    "project_id": "baubap-challenge-2bf93",
+    "storage_bucket": "baubap-challenge-2bf93.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:719931560353:android:ef3198ce5d8b2eef667be0",
+        "android_client_info": {
+          "package_name": "com.example.baubapchallenge"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMaz4c9Y4VhIU_WlLjsV-5w5bzHg-iMxg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
