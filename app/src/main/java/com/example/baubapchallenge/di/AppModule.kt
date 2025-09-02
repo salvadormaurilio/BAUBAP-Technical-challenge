@@ -2,6 +2,8 @@ package com.example.baubapchallenge.di
 
 import com.example.baubapchallenge.data.datasource.AuthRemoteDataSource
 import com.example.baubapchallenge.data.datasource.AuthRemoteDataSourceImpl
+import com.example.baubapchallenge.data.datasource.firebase.FirestoreClient
+import com.example.baubapchallenge.data.datasource.firebase.FirestoreClientImpl
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import dagger.Binds
@@ -14,6 +16,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AppModule {
+
+    @Binds
+    @Singleton
+    abstract fun bindFirestoreClient(impl: FirestoreClientImpl): FirestoreClient
 
     @Binds
     @Singleton
