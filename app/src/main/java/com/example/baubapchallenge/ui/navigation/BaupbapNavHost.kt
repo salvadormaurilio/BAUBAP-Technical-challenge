@@ -5,7 +5,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.baubapchallenge.ui.home.HomeScreen
 import com.example.baubapchallenge.ui.signin.SignInScreen
 import com.example.baubapchallenge.ui.signup.SignUpScreen
 import com.example.baubapchallenge.ui.welcome.WelcomeScreen
@@ -60,6 +59,5 @@ private fun NavGraphBuilder.signInScreenNav(navController: NavHostController) {
 
 private fun NavGraphBuilder.homeScreenNav(navController: NavHostController) {
     composable(route = BaupbapRoute.Home.route) {
-        HomeScreen()
     }
 }

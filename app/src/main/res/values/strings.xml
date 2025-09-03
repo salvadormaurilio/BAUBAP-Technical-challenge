@@ -19,4 +19,17 @@
     <string name="no_remember_curp">¿No recuerdas tu CURP?</string>
     <string name="consult_here">Consúltala aquí</string>
     <string name="already_have_account">¿Ya tienes cuenta?</string>
+
+    <!--  Home  -->
+    <string name="personal_data_title">Datos personales</string>
+    <string name="edit">Editar</string>
+    <string name="cellphone_number">Número celular</string>
+    <string name="email">Correo electrónico</string>
+    <string name="full_name">Nombre completo</string>
+    <string name="curp_label">CURP</string>
+    <string name="address">Domicilio</string>
+    <string name="deposit_accounts_title">Cuentas de depósito</string>
+    <string name="deposit_accounts_hint">Podrás dar de alta nuevas cuentas al aceptar tu siguiente préstamo.</string>
+    <string name="loans_history">Historial de préstamos</string>
+    <string name="clabe">CLABE: %1$s</string>
 </resources>
