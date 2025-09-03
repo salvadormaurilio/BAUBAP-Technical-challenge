@@ -1,10 +1,11 @@
 <resources>
+    <!--  Welcome  -->
     <string name="app_name">Baubap Challenge</string>
     <string name="welcome">¡Bienvenido!</string>
     <string name="reach_financial_goals_today">Alcanza tus metas financieras hoy mismo</string>
     <string name="create_account">Crea tu cuenta</string>
     <string name="sign_in">Inicia sesión</string>
-
+    <!--  Sign In  -->
     <string name="back">Atrás</string>
     <string name="enter_curp_or_phone">Ingresa tu CURP o número celular</string>
     <string name="enter_pin">Ingresa NIP de acceso</string>
@@ -12,4 +13,10 @@
     <string name="recover_here">Recupéralo aquí</string>
     <string name="no_account">¿No tienes cuenta?</string>
     <string name="create_new_account">Crea nueva cuenta</string>
+    <!--  Sign Up  -->
+    <string name="phone_number_10_digits">Número de celular (10 dígitos)</string>
+    <string name="curp">CURP</string>
+    <string name="no_remember_curp">¿No recuerdas tu CURP?</string>
+    <string name="consult_here">Consúltala aquí</string>
+    <string name="already_have_account">¿Ya tienes cuenta?</string>
 </resources>

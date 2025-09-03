@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -31,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -92,8 +94,7 @@ private fun SignInContainer(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp, vertical = 32.dp),
-        verticalArrangement = Arrangement.Top
+            .padding(horizontal = 24.dp, vertical = 32.dp)
     ) {
         Text(
             text = stringResource(R.string.sign_in),
@@ -119,9 +120,9 @@ private fun SignInContainer(
         Spacer(Modifier.height(16.dp))
 
         OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
             value = pin,
             onValueChange = { pin = it },
-            modifier = Modifier.fillMaxWidth(),
             label = {
                 Text(
                     text = stringResource(R.string.enter_pin),
@@ -129,7 +130,8 @@ private fun SignInContainer(
                 )
             },
             singleLine = true,
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -155,7 +157,6 @@ private fun SignInContainer(
         Spacer(Modifier.weight(1f))
 
         Button(
-            onClick = { onSignIn(identifier, pin) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
@@ -163,7 +164,8 @@ private fun SignInContainer(
             colors = ButtonDefaults.buttonColors(
                 contentColor = MaterialTheme.colorScheme.surface,
                 disabledContentColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.6f),
-            )
+            ),
+            onClick = { onSignIn(identifier, pin) }
         ) {
             Text(
                 text = stringResource(R.string.sign_in),
@@ -171,7 +173,7 @@ private fun SignInContainer(
             )
         }
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(24.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),

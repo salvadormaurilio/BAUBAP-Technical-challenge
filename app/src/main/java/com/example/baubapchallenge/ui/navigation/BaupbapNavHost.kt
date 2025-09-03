@@ -34,7 +34,14 @@ private fun NavGraphBuilder.welcomeScreenNav(navController: NavHostController) {
 
 private fun NavGraphBuilder.signUpScreenNav(navController: NavHostController) {
     composable(route = BaupbapRoute.SignUp.route) {
-        SignUpScreen()
+        SignUpScreen(
+            onBack = { navController.popBackStack() },
+            onSignIn = {
+                navController.navigate(BaupbapRoute.SignIn.route) {
+                    popUpTo(BaupbapRoute.SignUp.route) { inclusive = true }
+                }
+            }
+        )
     }
 }
 
@@ -42,7 +49,11 @@ private fun NavGraphBuilder.signInScreenNav(navController: NavHostController) {
     composable(route = BaupbapRoute.SignIn.route) {
         SignInScreen(
             onBack = { navController.popBackStack() },
-            onSingUp = { navController.navigate(BaupbapRoute.SignUp.route) }
+            onSingUp = {
+                navController.navigate(BaupbapRoute.SignUp.route) {
+                    popUpTo(BaupbapRoute.SignIn.route) { inclusive = true }
+                }
+            }
         )
     }
 }
