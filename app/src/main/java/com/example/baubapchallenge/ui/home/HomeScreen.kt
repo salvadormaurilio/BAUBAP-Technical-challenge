@@ -49,6 +49,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.baubapchallenge.R
+import com.example.baubapchallenge.domain.models.DepositAccount
 import com.example.baubapchallenge.ui.theme.BaubapChallengeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,7 +61,7 @@ fun HomeScreen(
     name: String = "",
     curp: String = "",
     address: String = "",
-    accounts: List<DepositAccountUI> = emptyList(),
+    accounts: List<DepositAccount> = emptyList(),
     onLoansHistory: () -> Unit = {}
 ) {
     Scaffold(
@@ -230,15 +231,9 @@ private fun InfoBlock(
     }
 }
 
-data class DepositAccountUI(
-    val bankName: String,
-    val type: String,
-    val clabe: String
-)
-
 @Composable
 private fun DepositAccountCard(
-    account: DepositAccountUI
+    account: DepositAccount
 ) {
     OutlinedCard(
         shape = RoundedCornerShape(8.dp),
@@ -303,8 +298,8 @@ private fun HomeScreenPreview() {
             curp = "AELM930630HDFLLG01",
             address = "Popayan Caunca",
             accounts = listOf(
-                DepositAccountUI("Afirme", "Tarjeta débito", "1327639849280480"),
-                DepositAccountUI("BBVA BANCOMER", "Tarjeta débito", "1327639849280480"),
+                DepositAccount("Afirme", "Tarjeta débito", "1327639849280480"),
+                DepositAccount("BBVA BANCOMER", "Tarjeta débito", "1327639849280480"),
             )
         )
     }

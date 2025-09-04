@@ -1,5 +1,7 @@
 package com.example.baubapchallenge.data.datasource.firebase
 
+import com.example.baubapchallenge.domain.models.DepositAccount
+import com.example.baubapchallenge.domain.models.UserData
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -52,6 +54,20 @@ class FirestoreClientImpl @Inject constructor(private val firestore: FirebaseFir
             .await()
 
         return queryUser.documents.firstOrNull()?.id
+    }
+
+    override suspend fun getUserData(userId: String): UserData? {
+        return UserData(
+            phone = "+5212345678",
+            email = "correo@baubap.com",
+            name = "Juan Perez",
+            curp = "AELM930630HDFLLG01",
+            address = "Popayan Caunca",
+            depositAccounts = listOf(
+                DepositAccount("Afirme", "Tarjeta débito", "1327639849280480"),
+                DepositAccount("BBVA BANCOMER", "Tarjeta débito", "1327639849280480"),
+            )
+        )
     }
 
     private companion object {

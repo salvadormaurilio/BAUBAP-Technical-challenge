@@ -35,7 +35,7 @@ class AuthRemoteDataSourceImpl @Inject constructor(
         if (userId != null) emit(Result.success(userId))
         else emit(Result.failure(AuthException.SignInException()))
     }.catch { e ->
-        emit(Result.failure(handleException(e, isSignUp = false)))
+        emit(Result.failure(handleException(exception = e, isSignUp = false)))
     }
 
     private fun hashPassword(password: String): String {

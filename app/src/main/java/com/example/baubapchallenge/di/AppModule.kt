@@ -2,10 +2,16 @@ package com.example.baubapchallenge.di
 
 import com.example.baubapchallenge.data.AuthRepository
 import com.example.baubapchallenge.data.AuthRepositoryImpl
+import com.example.baubapchallenge.data.UserDataRepository
+import com.example.baubapchallenge.data.UserDataRepositoryImpl
 import com.example.baubapchallenge.data.datasource.AuthRemoteDataSource
 import com.example.baubapchallenge.data.datasource.AuthRemoteDataSourceImpl
+import com.example.baubapchallenge.data.datasource.UserRemoteDataSource
+import com.example.baubapchallenge.data.datasource.UserRemoteDataSourceImpl
 import com.example.baubapchallenge.data.datasource.firebase.FirestoreClient
 import com.example.baubapchallenge.data.datasource.firebase.FirestoreClientImpl
+import com.example.baubapchallenge.domain.GetUserDataUseCase
+import com.example.baubapchallenge.domain.GetUserDataUseCaseImpl
 import com.example.baubapchallenge.domain.SignInUseCase
 import com.example.baubapchallenge.domain.SignInUseCaseImpl
 import com.example.baubapchallenge.domain.SignUpUseCase
@@ -40,6 +46,17 @@ abstract class AppModule {
 
     @Binds
     abstract fun bindSignInUseCase(impl: SignInUseCaseImpl): SignInUseCase
+
+    @Binds
+    @Singleton
+    abstract fun bindUserRemoteDataSource(impl: UserRemoteDataSourceImpl): UserRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindUserDataRepository(impl: UserDataRepositoryImpl): UserDataRepository
+
+    @Binds
+    abstract fun bindGetUserDataUseCase(impl: GetUserDataUseCaseImpl): GetUserDataUseCase
 
     companion object {
         @Provides
