@@ -18,7 +18,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -39,13 +38,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.baubapchallenge.R
 import com.example.baubapchallenge.data.exception.AuthException
 import com.example.baubapchallenge.ui.theme.BaubapChallengeTheme
+import com.example.baubapchallenge.ui.views.AuthTextField
 import com.example.baubapchallenge.ui.views.ProgressButton
 
 @Composable
@@ -199,77 +198,37 @@ private fun SignUpContainer(
 
         Spacer(Modifier.height(24.dp))
 
-        OutlinedTextField(
+        AuthTextField(
             modifier = Modifier.fillMaxWidth(),
             value = phone,
-            onValueChange = { if (!isLoading) onPhoneChanged(it) },
-            label = {
-                Text(
-                    text = stringResource(R.string.phone_number_10_digits),
-                    color = MaterialTheme.colorScheme.onSecondary
-                )
-            },
-            singleLine = true,
-            isError = showPhoneError,
-            supportingText = {
-                if (showPhoneError) {
-                    Text(
-                        text = stringResource(R.string.error_phone),
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            label = stringResource(R.string.phone_number_10_digits),
+            showError = showPhoneError,
+            error = stringResource(R.string.error_phone),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = { if (!isLoading) onPhoneChanged(it) }
         )
 
         Spacer(Modifier.height(16.dp))
 
-        OutlinedTextField(
+        AuthTextField(
             modifier = Modifier.fillMaxWidth(),
             value = curp,
-            onValueChange = { if (!isLoading) onCurpChanged(it) },
-            label = {
-                Text(
-                    text = stringResource(R.string.curp),
-                    color = MaterialTheme.colorScheme.onSecondary
-                )
-            },
-            singleLine = true,
-            isError = showCurpError,
-            supportingText = {
-                if (showCurpError) {
-                    Text(
-                        text = stringResource(R.string.error_curp),
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-            }
+            label = stringResource(R.string.curp),
+            showError = showCurpError,
+            error = stringResource(R.string.error_curp),
+            onValueChange = { if (!isLoading) onCurpChanged(it) }
         )
 
         Spacer(Modifier.height(16.dp))
 
-        OutlinedTextField(
+        AuthTextField(
             modifier = Modifier.fillMaxWidth(),
             value = pin,
-            onValueChange = { if (!isLoading) onPinChanged(it) },
-            label = {
-                Text(
-                    text = stringResource(R.string.enter_pin),
-                    color = MaterialTheme.colorScheme.onSecondary
-                )
-            },
-            singleLine = true,
-            visualTransformation = PasswordVisualTransformation(),
-            isError = showPinError,
-            supportingText = {
-                if (showPinError) {
-                    Text(
-                        text = stringResource(R.string.error_pin),
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword)
+            label = stringResource(R.string.enter_pin),
+            showError = showPinError,
+            error = stringResource(R.string.error_pin),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+            onValueChange = { if (!isLoading) onPinChanged(it) }
         )
 
         Spacer(Modifier.height(16.dp))

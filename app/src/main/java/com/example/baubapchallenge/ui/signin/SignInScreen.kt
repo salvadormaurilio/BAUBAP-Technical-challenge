@@ -17,7 +17,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -38,13 +37,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.baubapchallenge.R
 import com.example.baubapchallenge.data.exception.AuthException
 import com.example.baubapchallenge.ui.theme.BaubapChallengeTheme
+import com.example.baubapchallenge.ui.views.AuthTextField
 import com.example.baubapchallenge.ui.views.ProgressButton
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -185,52 +184,25 @@ private fun SignInContainer(
 
         Spacer(Modifier.height(24.dp))
 
-        OutlinedTextField(
+        AuthTextField(
             modifier = Modifier.fillMaxWidth(),
             value = identifier,
-            onValueChange = { if (!isLoading) onIdentifierChanged(it) },
-            label = {
-                Text(
-                    text = stringResource(R.string.enter_curp_or_phone),
-                    color = MaterialTheme.colorScheme.onSecondary
-                )
-            },
-            singleLine = true,
-            isError = showIdentifierError,
-            supportingText = {
-                if (showIdentifierError) {
-                    Text(
-                        text = stringResource(R.string.error_phone),
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-            },
+            label = stringResource(R.string.enter_curp_or_phone),
+            showError = showIdentifierError,
+            error = stringResource(R.string.error_identifier),
+            onValueChange = { if (!isLoading) onIdentifierChanged(it) }
         )
 
         Spacer(Modifier.height(16.dp))
 
-        OutlinedTextField(
+        AuthTextField(
             modifier = Modifier.fillMaxWidth(),
             value = pin,
-            onValueChange = { if (!isLoading) onPinChanged(it) },
-            label = {
-                Text(
-                    text = stringResource(R.string.enter_pin),
-                    color = MaterialTheme.colorScheme.onSecondary
-                )
-            },
-            singleLine = true,
-            visualTransformation = PasswordVisualTransformation(),
-            isError = showPinError,
-            supportingText = {
-                if (showPinError) {
-                    Text(
-                        text = stringResource(R.string.error_pin),
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword)
+            label = stringResource(R.string.enter_pin),
+            showError = showPinError,
+            error = stringResource(R.string.error_pin),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+            onValueChange = { if (!isLoading) onPinChanged(it) }
         )
 
         Spacer(Modifier.height(16.dp))
