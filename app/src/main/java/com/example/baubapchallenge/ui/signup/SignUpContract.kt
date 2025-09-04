@@ -21,4 +21,3 @@ sealed interface SignUpUiEffect {
     data class Success(val userId: String) : SignUpUiEffect
     data class Message(val error: Throwable) : SignUpUiEffect
 }
-

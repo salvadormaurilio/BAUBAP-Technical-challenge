@@ -69,7 +69,7 @@ fun SignUpScreen(
                 is SignUpUiEffect.Success -> onHome()
                 is SignUpUiEffect.Message -> {
                     snackbarHostState.showSnackbar(
-                        message = context.getString(getMessage(effect.error))
+                        message = context.getString(getMessageErrorFromAuthException(effect.error))
                     )
                 }
             }
@@ -94,7 +94,7 @@ fun SignUpScreen(
     )
 }
 
-private fun getMessage(error: Throwable) = when (error) {
+private fun getMessageErrorFromAuthException(error: Throwable) = when (error) {
     is AuthException.UserAlreadyExistException -> R.string.error_user_exists
     is AuthException.SignUpException -> R.string.error_signup_generic
     is AuthException.NetworkException -> R.string.error_network
@@ -120,9 +120,7 @@ fun SignUpContent(
     onBack: () -> Unit = {},
 ) {
     Scaffold(
-        topBar = {
-            SignUpTopAppBar(onBack)
-        },
+        topBar = { SignUpTopAppBar(onBack) },
         snackbarHost = {
             snackbarHostState?.let {
                 SnackbarHost(it) { data -> Snackbar(snackbarData = data) }
@@ -177,9 +175,9 @@ private fun SignUpContainer(
     showPhoneError: Boolean,
     showCurpError: Boolean,
     showPinError: Boolean,
-    onPhoneChanged: (String) -> Unit = {},
-    onCurpChanged: (String) -> Unit = {},
-    onPinChanged: (String) -> Unit = {},
+    onPhoneChanged: (String) -> Unit,
+    onCurpChanged: (String) -> Unit,
+    onPinChanged: (String) -> Unit,
     onConfirmSignUp: () -> Unit,
     onConsultCurp: () -> Unit,
     onSignIn: () -> Unit
@@ -296,7 +294,7 @@ private fun SignUpContainer(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
-            enabled = phone.isNotEmpty() && curp.isNotEmpty() && pin.isNotEmpty(),
+            enabled = phone.isNotBlank() && curp.isNotBlank() && pin.isNotBlank(),
             colors = ButtonDefaults.buttonColors(
                 contentColor = MaterialTheme.colorScheme.surface,
                 disabledContentColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.6f),

@@ -10,6 +10,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -36,29 +38,30 @@ class SignUpViewModel @Inject constructor(private val signUp: SignUpUseCase) : V
     private fun confirmSingUp() {
         if (!areInputsValid()) return
 
-        updateSingUpUiState(isLoading = true)
         viewModelScope.launch {
-            signUp(_signUpUiState.value.phone, _signUpUiState.value.curp, _signUpUiState.value.pin)
+            val uiState = _signUpUiState.value
+            signUp(uiState.phone, uiState.curp, uiState.pin)
+                .onStart { updateSingUpUiState(isLoading = true) }
+                .onCompletion { updateSingUpUiState(isLoading = false) }
                 .collect { result ->
                     result.fold(
                         onSuccess = { id ->
-                            updateSingUpUiState(isLoading = false)
                             _signUpUiEffect.send(SignUpUiEffect.Success(id))
                         },
                         onFailure = { e ->
-                            updateSingUpUiState(isLoading = false)
                             _signUpUiEffect.send(SignUpUiEffect.Message(e))
                         }
                     )
                 }
+
         }
     }
 
     private fun areInputsValid(): Boolean {
-        val state = _signUpUiState.value
-        val isPhoneValid = state.phone.isValidPhone()
-        val isCurpValid = state.curp.isValidCurp()
-        val isPinValid = state.pin.isValidPin()
+        val uiState = _signUpUiState.value
+        val isPhoneValid = uiState.phone.isValidPhone()
+        val isCurpValid = uiState.curp.isValidCurp()
+        val isPinValid = uiState.pin.isValidPin()
 
         updateSingUpUiState(
             showPhoneError = !isPhoneValid,
