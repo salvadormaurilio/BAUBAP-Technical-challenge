@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,6 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.baubapchallenge.R
 import com.example.baubapchallenge.data.exception.AuthException
 import com.example.baubapchallenge.ui.theme.BaubapChallengeTheme
+import com.example.baubapchallenge.ui.views.ProgressButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -81,6 +80,7 @@ fun SignInScreen(
         pin = uiState.value.pin,
         showIdentifierError = uiState.value.showIdentifierError,
         showPinError = uiState.value.showPinError,
+        isLoading = uiState.value.isLoading,
         snackbarHostState = snackbarHostState,
         onIdentifierChanged = { viewModel.handleIntent(SignInUiIntent.IdentifierChanged(it)) },
         onPinChanged = { viewModel.handleIntent(SignInUiIntent.PinChanged(it)) },
@@ -104,6 +104,7 @@ fun SignInContent(
     pin: String,
     showIdentifierError: Boolean = false,
     showPinError: Boolean = false,
+    isLoading: Boolean = false,
     snackbarHostState: SnackbarHostState? = null,
     onIdentifierChanged: (String) -> Unit = {},
     onPinChanged: (String) -> Unit = {},
@@ -126,6 +127,7 @@ fun SignInContent(
             pin = pin,
             showIdentifierError = showIdentifierError,
             showPinError = showPinError,
+            isLoading = isLoading,
             onIdentifierChanged = onIdentifierChanged,
             onPinChanged = onPinChanged,
             onConfirmSignIn = onConfirmSignIn,
@@ -162,6 +164,7 @@ private fun SignInContainer(
     pin: String,
     showIdentifierError: Boolean,
     showPinError: Boolean,
+    isLoading: Boolean,
     onIdentifierChanged: (String) -> Unit,
     onPinChanged: (String) -> Unit,
     onConfirmSignIn: () -> Unit,
@@ -185,7 +188,7 @@ private fun SignInContainer(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = identifier,
-            onValueChange = { onIdentifierChanged(it) },
+            onValueChange = { if (!isLoading) onIdentifierChanged(it) },
             label = {
                 Text(
                     text = stringResource(R.string.enter_curp_or_phone),
@@ -209,7 +212,7 @@ private fun SignInContainer(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = pin,
-            onValueChange = { onPinChanged(it) },
+            onValueChange = { if (!isLoading) onPinChanged(it) },
             label = {
                 Text(
                     text = stringResource(R.string.enter_pin),
@@ -252,22 +255,13 @@ private fun SignInContainer(
 
         Spacer(Modifier.weight(1f))
 
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
+        ProgressButton(
+            modifier = Modifier.fillMaxWidth(),
             enabled = identifier.isNotBlank() && pin.isNotBlank(),
-            colors = ButtonDefaults.buttonColors(
-                contentColor = MaterialTheme.colorScheme.surface,
-                disabledContentColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.6f),
-            ),
-            onClick = { onConfirmSignIn() }
-        ) {
-            Text(
-                text = stringResource(R.string.sign_in),
-                style = MaterialTheme.typography.titleSmall
-            )
-        }
+            isLoading = isLoading,
+            text = R.string.sign_in,
+            onClick = onConfirmSignIn
+        )
 
         Spacer(Modifier.height(24.dp))
 
@@ -302,6 +296,23 @@ fun SignInContentPreview() {
         SignInContent(
             identifier = identifier,
             pin = pin,
+            onIdentifierChanged = { identifier = it },
+            onPinChanged = { pin = it }
+        )
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun SignInContentLoadingPreview() {
+    BaubapChallengeTheme {
+        var identifier by rememberSaveable { mutableStateOf("AELM930630HDFLLG01") }
+        var pin by rememberSaveable { mutableStateOf("123443") }
+        SignInContent(
+            identifier = identifier,
+            pin = pin,
+            isLoading = true,
             onIdentifierChanged = { identifier = it },
             onPinChanged = { pin = it }
         )

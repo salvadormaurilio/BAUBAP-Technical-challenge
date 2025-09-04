@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -48,6 +46,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.baubapchallenge.R
 import com.example.baubapchallenge.data.exception.AuthException
 import com.example.baubapchallenge.ui.theme.BaubapChallengeTheme
+import com.example.baubapchallenge.ui.views.ProgressButton
 
 @Composable
 fun SignUpScreen(
@@ -83,6 +82,7 @@ fun SignUpScreen(
         showPhoneError = uiState.value.showPhoneError,
         showCurpError = uiState.value.showCurpError,
         showPinError = uiState.value.showPinError,
+        isLoading = uiState.value.isLoading,
         snackbarHostState = snackbarHostState,
         onPhoneChanged = { viewModel.handleIntent(SignUpUiIntent.PhoneChanged(it)) },
         onCurpChanged = { viewModel.handleIntent(SignUpUiIntent.CurpChanged(it)) },
@@ -110,6 +110,7 @@ fun SignUpContent(
     showPhoneError: Boolean = false,
     showCurpError: Boolean = false,
     showPinError: Boolean = false,
+    isLoading: Boolean = false,
     snackbarHostState: SnackbarHostState? = null,
     onPhoneChanged: (String) -> Unit = {},
     onCurpChanged: (String) -> Unit = {},
@@ -136,6 +137,7 @@ fun SignUpContent(
             showPhoneError = showPhoneError,
             showCurpError = showCurpError,
             showPinError = showPinError,
+            isLoading = isLoading,
             onPhoneChanged = onPhoneChanged,
             onCurpChanged = onCurpChanged,
             onPinChanged = onPinChanged,
@@ -175,6 +177,7 @@ private fun SignUpContainer(
     showPhoneError: Boolean,
     showCurpError: Boolean,
     showPinError: Boolean,
+    isLoading: Boolean,
     onPhoneChanged: (String) -> Unit,
     onCurpChanged: (String) -> Unit,
     onPinChanged: (String) -> Unit,
@@ -199,7 +202,7 @@ private fun SignUpContainer(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = phone,
-            onValueChange = { onPhoneChanged(it) },
+            onValueChange = { if (!isLoading) onPhoneChanged(it) },
             label = {
                 Text(
                     text = stringResource(R.string.phone_number_10_digits),
@@ -224,7 +227,7 @@ private fun SignUpContainer(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = curp,
-            onValueChange = { onCurpChanged(it) },
+            onValueChange = { if (!isLoading) onCurpChanged(it) },
             label = {
                 Text(
                     text = stringResource(R.string.curp),
@@ -248,7 +251,7 @@ private fun SignUpContainer(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = pin,
-            onValueChange = { onPinChanged(it) },
+            onValueChange = { if (!isLoading) onPinChanged(it) },
             label = {
                 Text(
                     text = stringResource(R.string.enter_pin),
@@ -290,22 +293,13 @@ private fun SignUpContainer(
 
         Spacer(Modifier.weight(1f))
 
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
+        ProgressButton(
+            modifier = Modifier.fillMaxWidth(),
             enabled = phone.isNotBlank() && curp.isNotBlank() && pin.isNotBlank(),
-            colors = ButtonDefaults.buttonColors(
-                contentColor = MaterialTheme.colorScheme.surface,
-                disabledContentColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.6f),
-            ),
-            onClick = { onConfirmSignUp() }
-        ) {
-            Text(
-                text = stringResource(R.string.create_account),
-                style = MaterialTheme.typography.titleSmall
-            )
-        }
+            isLoading = isLoading,
+            text = R.string.create_account,
+            onClick = onConfirmSignUp
+        )
 
         Spacer(Modifier.height(24.dp))
 
@@ -348,6 +342,26 @@ fun SignUpContentPreview() {
         )
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun SignUpContentLoadingPreview() {
+    BaubapChallengeTheme {
+        var phone by rememberSaveable { mutableStateOf("55098394898") }
+        var curp by rememberSaveable { mutableStateOf("AELM930630HDFLLG01") }
+        var pin by rememberSaveable { mutableStateOf("123443") }
+        SignUpContent(
+            phone = phone,
+            curp = curp,
+            pin = pin,
+            isLoading = true,
+            onPhoneChanged = { phone = it },
+            onCurpChanged = { curp = it },
+            onPinChanged = { pin = it }
+        )
+    }
+}
+
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Preview(showBackground = true)
