@@ -67,7 +67,7 @@ class AuthRemoteDataSourceShould {
 
         verify(client).userExistsByPhoneOrCurp(ANY_USER_PHONE, ANY_USER_CURP)
         verify(client).createUser(ANY_USER_PHONE, ANY_USER_CURP, ANY_PASSWORD_HASHED)
-        assertThatEquals(ANY_USER_ID, result?.getOrNull())
+        assertThatEquals(result?.getOrNull(), ANY_USER_ID)
     }
 
     @Test
@@ -89,7 +89,7 @@ class AuthRemoteDataSourceShould {
         val result = authRemoteDataSource.signIn(ANY_USER_PHONE, ANY_PASSWORD).firstOrNull()
 
         verify(client).findUserId(ANY_USER_PHONE, ANY_PASSWORD_HASHED)
-        assertThatEquals(ANY_USER_ID, result?.getOrNull())
+        assertThatEquals(result?.getOrNull(), ANY_USER_ID)
     }
 
     @Test

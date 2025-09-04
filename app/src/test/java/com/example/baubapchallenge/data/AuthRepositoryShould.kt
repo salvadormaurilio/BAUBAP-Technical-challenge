@@ -43,7 +43,7 @@ class AuthRepositoryShould {
         val result = authRepository.signUp(ANY_USER_PHONE, ANY_USER_CURP, ANY_PASSWORD).firstOrNull()
 
         verify(authRemoteDataSource).signUp(ANY_USER_PHONE, ANY_USER_CURP, ANY_PASSWORD)
-        assertThatEquals(ANY_USER_ID, result?.getOrNull())
+        assertThatEquals(result?.getOrNull(), ANY_USER_ID)
     }
 
     @Test
@@ -65,7 +65,7 @@ class AuthRepositoryShould {
         val result = authRepository.signIn(ANY_USER_PHONE, ANY_PASSWORD).firstOrNull()
 
         verify(authRemoteDataSource).signIn(ANY_USER_PHONE, ANY_PASSWORD)
-        assertThatEquals(ANY_USER_ID, result?.getOrNull())
+        assertThatEquals(result?.getOrNull(), ANY_USER_ID)
     }
 
     @Test

@@ -42,7 +42,7 @@ class SignInUseCaseShould {
         val result = signInUseCase(ANY_USER_PHONE, ANY_PASSWORD).firstOrNull()
 
         verify(authRepository).signIn(ANY_USER_PHONE, ANY_PASSWORD)
-        assertThatEquals(ANY_USER_ID, result?.getOrNull())
+        assertThatEquals(result?.getOrNull(), ANY_USER_ID)
     }
 
     @Test

@@ -6,8 +6,8 @@ import com.example.baubapchallenge.data.UserDataRepository
 import com.example.baubapchallenge.data.UserDataRepositoryImpl
 import com.example.baubapchallenge.data.datasource.AuthRemoteDataSource
 import com.example.baubapchallenge.data.datasource.AuthRemoteDataSourceImpl
-import com.example.baubapchallenge.data.datasource.UserRemoteDataSource
-import com.example.baubapchallenge.data.datasource.UserRemoteDataSourceImpl
+import com.example.baubapchallenge.data.datasource.UserDataRemoteDataSource
+import com.example.baubapchallenge.data.datasource.UserDataRemoteDataSourceImpl
 import com.example.baubapchallenge.data.datasource.firebase.FirestoreClient
 import com.example.baubapchallenge.data.datasource.firebase.FirestoreClientImpl
 import com.example.baubapchallenge.domain.GetUserDataUseCase
@@ -49,7 +49,7 @@ abstract class AppModule {
 
     @Binds
     @Singleton
-    abstract fun bindUserRemoteDataSource(impl: UserRemoteDataSourceImpl): UserRemoteDataSource
+    abstract fun bindUserRemoteDataSource(impl: UserDataRemoteDataSourceImpl): UserDataRemoteDataSource
 
     @Binds
     @Singleton

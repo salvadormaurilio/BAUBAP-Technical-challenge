@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class UserRemoteDataSourceImpl @Inject constructor(
+class UserDataRemoteDataSourceImpl @Inject constructor(
     private val client: FirestoreClient
-) : UserRemoteDataSource {
+) : UserDataRemoteDataSource {
 
     override fun getUserData(userId: String) = flow {
         val userData = client.getUserData(userId)
