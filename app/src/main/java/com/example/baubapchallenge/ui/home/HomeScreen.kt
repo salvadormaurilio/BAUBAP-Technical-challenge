@@ -54,12 +54,13 @@ import com.example.baubapchallenge.ui.theme.BaubapChallengeTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    phone: String,
-    email: String,
-    name: String,
-    curp: String,
-    address: String,
-    accounts: List<DepositAccountUI>,
+    userId: String,
+    phone: String = "",
+    email: String = "",
+    name: String = "",
+    curp: String = "",
+    address: String = "",
+    accounts: List<DepositAccountUI> = emptyList(),
     onLoansHistory: () -> Unit = {}
 ) {
     Scaffold(
@@ -295,6 +296,7 @@ private fun DepositAccountCard(
 private fun HomeScreenPreview() {
     BaubapChallengeTheme {
         HomeScreen(
+            userId = "123456789",
             phone = "+5212345678",
             email = "correo@baubap.com",
             name = "Juan Perez",

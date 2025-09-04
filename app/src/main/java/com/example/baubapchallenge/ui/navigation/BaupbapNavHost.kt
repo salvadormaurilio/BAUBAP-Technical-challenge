@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.baubapchallenge.ui.home.HomeScreen
 import com.example.baubapchallenge.ui.signin.SignInScreen
 import com.example.baubapchallenge.ui.signup.SignUpScreen
 import com.example.baubapchallenge.ui.welcome.WelcomeScreen
@@ -18,7 +19,7 @@ fun BaupbapNavHost(navHostController: NavHostController) {
         welcomeScreenNav(navHostController)
         signUpScreenNav(navHostController)
         signInScreenNav(navHostController)
-        homeScreenNav(navHostController)
+        homeScreenNav()
     }
 }
 
@@ -41,7 +42,7 @@ private fun NavGraphBuilder.signUpScreenNav(navController: NavHostController) {
                 }
             },
             onHome = {
-                navController.navigate(BaupbapRoute.Home.route) {
+                navController.navigate(BaupbapRoute.Home.createRoute(it)) {
                     popUpTo(0) { inclusive = true }
                 }
             },
@@ -59,7 +60,7 @@ private fun NavGraphBuilder.signInScreenNav(navController: NavHostController) {
                 }
             },
             onHome = {
-                navController.navigate(BaupbapRoute.Home.route) {
+                navController.navigate(BaupbapRoute.Home.createRoute(it)) {
                     popUpTo(0) { inclusive = true }
                 }
             },
@@ -68,7 +69,13 @@ private fun NavGraphBuilder.signInScreenNav(navController: NavHostController) {
     }
 }
 
-private fun NavGraphBuilder.homeScreenNav(navController: NavHostController) {
-    composable(route = BaupbapRoute.Home.route) {
+private fun NavGraphBuilder.homeScreenNav() {
+    composable(
+        route = BaupbapRoute.Home.route,
+        arguments = BaupbapRoute.Home.getArguments()
+    ) {
+        HomeScreen(
+            userId = it.arguments?.getString(BaupbapRoute.USER_ID_ARGUMENT).orEmpty()
+        )
     }
 }

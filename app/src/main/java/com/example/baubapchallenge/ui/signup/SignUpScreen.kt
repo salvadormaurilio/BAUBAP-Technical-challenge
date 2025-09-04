@@ -52,7 +52,7 @@ fun SignUpScreen(
     viewModel: SignUpViewModel = hiltViewModel(),
     onConsultCurp: () -> Unit,
     onSignIn: () -> Unit,
-    onHome: () -> Unit,
+    onHome: (String) -> Unit,
     onBack: () -> Unit
 ) {
     val uiState = viewModel.signUpUiState.collectAsState()
@@ -64,7 +64,7 @@ fun SignUpScreen(
     LaunchedEffect(uiEffect) {
         uiEffect.collect { effect ->
             when (effect) {
-                is SignUpUiEffect.Success -> onHome()
+                is SignUpUiEffect.Success -> onHome(effect.userId)
                 is SignUpUiEffect.Message -> {
                     snackbarHostState.showSnackbar(
                         message = context.getString(getMessageErrorFromAuthException(effect.error))

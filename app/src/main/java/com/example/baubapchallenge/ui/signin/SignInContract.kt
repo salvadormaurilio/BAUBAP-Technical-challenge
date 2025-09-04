@@ -1,8 +1,10 @@
 package com.example.baubapchallenge.ui.signin
 
+import com.example.baubapchallenge.core.extensions.empty
+
 data class SignInUiState(
-    val identifier: String = "",
-    val pin: String = "",
+    val identifier: String = String.empty(),
+    val pin: String = String.empty(),
     val showIdentifierError: Boolean = false,
     val showPinError: Boolean = false,
     val isLoading: Boolean = false

@@ -53,7 +53,7 @@ fun SignInScreen(
     onBack: () -> Unit = {},
     onForgotPin: () -> Unit = {},
     onSingUp: () -> Unit = {},
-    onHome: () -> Unit = {}
+    onHome: (String) -> Unit = {}
 ) {
     val uiState = viewModel.signInUiState.collectAsState()
     val uiEffect = viewModel.signInUiEffect
@@ -64,7 +64,7 @@ fun SignInScreen(
     LaunchedEffect(uiEffect) {
         uiEffect.collect { effect ->
             when (effect) {
-                is SignInUiEffect.Success -> onHome()
+                is SignInUiEffect.Success -> onHome(effect.userId)
                 is SignInUiEffect.Message -> {
                     snackbarHostState.showSnackbar(
                         message = context.getString(getMessageErrorFromAuthException(effect.error))

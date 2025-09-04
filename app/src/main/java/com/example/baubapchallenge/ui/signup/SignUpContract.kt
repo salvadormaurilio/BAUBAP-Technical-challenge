@@ -1,9 +1,11 @@
 package com.example.baubapchallenge.ui.signup
 
+import com.example.baubapchallenge.core.extensions.empty
+
 data class SignUpUiState(
-    val phone: String = "",
-    val curp: String = "",
-    val pin: String = "",
+    val phone: String = String.empty(),
+    val curp: String = String.empty(),
+    val pin: String = String.empty(),
     val showPhoneError: Boolean = false,
     val showCurpError: Boolean = false,
     val showPinError: Boolean = false,
