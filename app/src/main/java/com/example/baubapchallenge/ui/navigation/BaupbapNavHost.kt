@@ -58,6 +58,11 @@ private fun NavGraphBuilder.signInScreenNav(navController: NavHostController) {
                     popUpTo(BaupbapRoute.SignIn.route) { inclusive = true }
                 }
             },
+            onHome = {
+                navController.navigate(BaupbapRoute.Home.route) {
+                    popUpTo(0) { inclusive = true }
+                }
+            },
             onBack = { navController.popBackStack() }
         )
     }

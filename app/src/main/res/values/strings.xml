@@ -13,6 +13,9 @@
     <string name="recover_here">Recupéralo aquí</string>
     <string name="no_account">¿No tienes cuenta?</string>
     <string name="create_new_account">Crea nueva cuenta</string>
+    <string name="error_identifier">Ingresa un teléfono de 10 dígitos o una CURP válida.</string>
+    <string name="error_invalid_credentials">Credenciales inválidas. Verifica tus datos.</string>
+    <string name="error_signin_generic">No pudimos iniciar sesión. Intenta de nuevo.</string>
     <!--  Sign Up  -->
     <string name="phone_number_10_digits">Número de celular (10 dígitos)</string>
     <string name="curp">CURP</string>
@@ -22,11 +25,11 @@
     <string name="error_phone">Ingresa un número de 10 dígitos.</string>
     <string name="error_curp">CURP inválida. Debe tener 18 caracteres en mayúsculas.</string>
     <string name="error_pin">El NIP debe ser de 4 dígitos.</string>
-
     <string name="error_user_exists">Ya existe un usuario con esos datos.</string>
     <string name="error_network">No hay conexión. Inténtalo más tarde.</string>
     <string name="error_signup_generic">No pudimos crear tu cuenta. Inténtalo nuevamente.</string>
     <string name="error_unknown">Ocurrió un error inesperado.</string>
+
     <!--  Home  -->
     <string name="personal_data_title">Datos personales</string>
     <string name="edit">Editar</string>
