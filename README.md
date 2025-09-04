@@ -55,21 +55,19 @@ This project simulates **account registration** and **login** for **Baubap**, us
 
 ---
 
-## 🧪 How to Run & Test the Project
+## 🧪 How & Test the Project
+You can download a version of the application from **Firebase App Distribution** at the following link:  
 
-To run the project, make sure to add the following entry to your `local.properties` file:
+👉 [Download App](https://appdistribution.firebase.dev/i/76b3aa2f7b65f011)
 
-```properties
-MAPS_API_KEY=AIzaSyBpUVcthDLDdubUlpGQL54Xacn0CGINU-Y
-```
+---
 
-Also You can build app or run the Unit Tests and Integration Tests with:
+## 🧪 Run Unit Tests
 
-```
-./gradlew testDebugUnitTest            # Run unit tests
-./gradlew connectedDebugAndroidTest    # Run instrumentation tests
-```
+To run the unit tests, use the following command:
 
+```bash
+./gradlew testDebugUnitTes
 
 
 
