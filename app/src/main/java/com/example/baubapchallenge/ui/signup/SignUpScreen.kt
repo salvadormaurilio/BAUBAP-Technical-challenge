@@ -1,5 +1,6 @@
 package com.example.baubapchallenge.ui.signup
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,40 +22,126 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.baubapchallenge.R
+import com.example.baubapchallenge.data.exception.AuthException
 import com.example.baubapchallenge.ui.theme.BaubapChallengeTheme
+
+@Composable
+fun SignUpScreen(
+    viewModel: SignUpViewModel = hiltViewModel(),
+    onConsultCurp: () -> Unit,
+    onSignIn: () -> Unit,
+    onHome: () -> Unit,
+    onBack: () -> Unit
+) {
+    val uiState = viewModel.signUpUiState.collectAsState()
+    val uiEffect = viewModel.signUpUiEffect
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+
+    LaunchedEffect(uiEffect) {
+        uiEffect.collect { effect ->
+            when (effect) {
+                is SignUpUiEffect.Success -> onHome()
+                is SignUpUiEffect.Message -> {
+                    snackbarHostState.showSnackbar(
+                        message = context.getString(getMessage(effect.error))
+                    )
+                }
+            }
+        }
+    }
+
+    SignUpContent(
+        phone = uiState.value.phone,
+        curp = uiState.value.curp,
+        pin = uiState.value.pin,
+        showPhoneError = uiState.value.showPhoneError,
+        showCurpError = uiState.value.showCurpError,
+        showPinError = uiState.value.showPinError,
+        snackbarHostState = snackbarHostState,
+        onPhoneChanged = { viewModel.handleIntent(SignUpUiIntent.PhoneChanged(it)) },
+        onCurpChanged = { viewModel.handleIntent(SignUpUiIntent.CurpChanged(it)) },
+        onPinChanged = { viewModel.handleIntent(SignUpUiIntent.PinChanged(it)) },
+        onConfirmSignUp = { viewModel.handleIntent(SignUpUiIntent.ConfirmSignUp) },
+        onConsultCurp = onConsultCurp,
+        onSignIn = onSignIn,
+        onBack = onBack
+    )
+}
+
+private fun getMessage(error: Throwable) = when (error) {
+    is AuthException.UserAlreadyExistException -> R.string.error_user_exists
+    is AuthException.SignUpException -> R.string.error_signup_generic
+    is AuthException.NetworkException -> R.string.error_network
+    else -> R.string.error_unknown
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpScreen(
-    onBack: () -> Unit = {},
-    onSignUp: (String, String) -> Unit = { _, _ -> },
+fun SignUpContent(
+    phone: String,
+    curp: String,
+    pin: String,
+    showPhoneError: Boolean = false,
+    showCurpError: Boolean = false,
+    showPinError: Boolean = false,
+    snackbarHostState: SnackbarHostState? = null,
+    onPhoneChanged: (String) -> Unit = {},
+    onCurpChanged: (String) -> Unit = {},
+    onPinChanged: (String) -> Unit = {},
+    onConfirmSignUp: () -> Unit = {},
     onConsultCurp: () -> Unit = {},
-    onSignIn: () -> Unit = {}
+    onSignIn: () -> Unit = {},
+    onBack: () -> Unit = {},
 ) {
     Scaffold(
         topBar = {
             SignUpTopAppBar(onBack)
+        },
+        snackbarHost = {
+            snackbarHostState?.let {
+                SnackbarHost(it) { data -> Snackbar(snackbarData = data) }
+            }
         }
+
     ) { paddingValues ->
         SignUpContainer(
             modifier = Modifier.padding(paddingValues),
-            onSignUp = onSignUp,
+            phone = phone,
+            curp = curp,
+            pin = pin,
+            showPhoneError = showPhoneError,
+            showCurpError = showCurpError,
+            showPinError = showPinError,
+            onPhoneChanged = onPhoneChanged,
+            onCurpChanged = onCurpChanged,
+            onPinChanged = onPinChanged,
+            onConfirmSignUp = onConfirmSignUp,
             onConsultCurp = onConsultCurp,
             onSignIn = onSignIn
         )
@@ -84,13 +171,19 @@ private fun SignUpTopAppBar(onBack: () -> Unit) {
 @Composable
 private fun SignUpContainer(
     modifier: Modifier = Modifier,
-    onSignUp: (String, String) -> Unit,
+    phone: String,
+    curp: String,
+    pin: String,
+    showPhoneError: Boolean,
+    showCurpError: Boolean,
+    showPinError: Boolean,
+    onPhoneChanged: (String) -> Unit = {},
+    onCurpChanged: (String) -> Unit = {},
+    onPinChanged: (String) -> Unit = {},
+    onConfirmSignUp: () -> Unit,
     onConsultCurp: () -> Unit,
     onSignIn: () -> Unit
 ) {
-    var phone by rememberSaveable { mutableStateOf("") }
-    var curp by rememberSaveable { mutableStateOf("") }
-    var pin by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -108,7 +201,7 @@ private fun SignUpContainer(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = phone,
-            onValueChange = { phone = it },
+            onValueChange = { onPhoneChanged(it) },
             label = {
                 Text(
                     text = stringResource(R.string.phone_number_10_digits),
@@ -116,6 +209,15 @@ private fun SignUpContainer(
                 )
             },
             singleLine = true,
+            isError = showPhoneError,
+            supportingText = {
+                if (showPhoneError) {
+                    Text(
+                        text = stringResource(R.string.error_phone),
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -124,7 +226,7 @@ private fun SignUpContainer(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = curp,
-            onValueChange = { curp = it },
+            onValueChange = { onCurpChanged(it) },
             label = {
                 Text(
                     text = stringResource(R.string.curp),
@@ -132,6 +234,15 @@ private fun SignUpContainer(
                 )
             },
             singleLine = true,
+            isError = showCurpError,
+            supportingText = {
+                if (showCurpError) {
+                    Text(
+                        text = stringResource(R.string.error_curp),
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
         )
 
         Spacer(Modifier.height(16.dp))
@@ -139,7 +250,7 @@ private fun SignUpContainer(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = pin,
-            onValueChange = { pin = it },
+            onValueChange = { onPinChanged(it) },
             label = {
                 Text(
                     text = stringResource(R.string.enter_pin),
@@ -148,6 +259,15 @@ private fun SignUpContainer(
             },
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
+            isError = showPinError,
+            supportingText = {
+                if (showPinError) {
+                    Text(
+                        text = stringResource(R.string.error_pin),
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword)
         )
 
@@ -176,12 +296,12 @@ private fun SignUpContainer(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
-            enabled = phone.length == 10 && curp.isNotBlank(),
+            enabled = phone.isNotEmpty() && curp.isNotEmpty() && pin.isNotEmpty(),
             colors = ButtonDefaults.buttonColors(
                 contentColor = MaterialTheme.colorScheme.surface,
                 disabledContentColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.6f),
             ),
-            onClick = { onSignUp(phone, curp) }
+            onClick = { onConfirmSignUp() }
         ) {
             Text(
                 text = stringResource(R.string.create_account),
@@ -215,8 +335,61 @@ private fun SignUpContainer(
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpScreenPreview() {
+fun SignUpContentPreview() {
     BaubapChallengeTheme {
-        SignUpScreen()
+        var phone by rememberSaveable { mutableStateOf("") }
+        var curp by rememberSaveable { mutableStateOf("") }
+        var pin by rememberSaveable { mutableStateOf("") }
+        SignUpContent(
+            phone = phone,
+            curp = curp,
+            pin = pin,
+            onPhoneChanged = { phone = it },
+            onCurpChanged = { curp = it },
+            onPinChanged = { pin = it }
+        )
     }
 }
+
+@SuppressLint("CoroutineCreationDuringComposition")
+@Preview(showBackground = true)
+@Composable
+fun SignUpContentWithErrorsPreview() {
+    BaubapChallengeTheme {
+        var phone by rememberSaveable { mutableStateOf("") }
+        var curp by rememberSaveable { mutableStateOf("") }
+        var pin by rememberSaveable { mutableStateOf("") }
+        var showPhoneError by rememberSaveable { mutableStateOf(true) }
+        var showCurpError by rememberSaveable { mutableStateOf(true) }
+        var showPinError by rememberSaveable { mutableStateOf(true) }
+        val snackbarHostState = remember { SnackbarHostState() }
+        val nerWorkMessage = stringResource(R.string.error_network)
+
+        LaunchedEffect(Unit) {
+            snackbarHostState.showSnackbar(message = nerWorkMessage)
+        }
+
+        SignUpContent(
+            phone = phone,
+            curp = curp,
+            pin = pin,
+            showPhoneError = showPhoneError,
+            showCurpError = showCurpError,
+            showPinError = showPinError,
+            snackbarHostState = snackbarHostState,
+            onPhoneChanged = {
+                phone = it
+                showPhoneError = false
+            },
+            onCurpChanged = {
+                curp = it
+                showCurpError = false
+            },
+            onPinChanged = {
+                pin = it
+                showPinError = false
+            }
+        )
+    }
+}
+

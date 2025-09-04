@@ -19,7 +19,14 @@
     <string name="no_remember_curp">¿No recuerdas tu CURP?</string>
     <string name="consult_here">Consúltala aquí</string>
     <string name="already_have_account">¿Ya tienes cuenta?</string>
+    <string name="error_phone">Ingresa un número de 10 dígitos.</string>
+    <string name="error_curp">CURP inválida. Debe tener 18 caracteres en mayúsculas.</string>
+    <string name="error_pin">El NIP debe ser de 4 dígitos.</string>
 
+    <string name="error_user_exists">Ya existe un usuario con esos datos.</string>
+    <string name="error_network">No hay conexión. Inténtalo más tarde.</string>
+    <string name="error_signup_generic">No pudimos crear tu cuenta. Inténtalo nuevamente.</string>
+    <string name="error_unknown">Ocurrió un error inesperado.</string>
     <!--  Home  -->
     <string name="personal_data_title">Datos personales</string>
     <string name="edit">Editar</string>
