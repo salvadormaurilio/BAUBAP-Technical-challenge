@@ -65,7 +65,7 @@ fun SignInScreen(
         uiEffect.collect { effect ->
             when (effect) {
                 is SignInUiEffect.Success -> onHome(effect.userId)
-                is SignInUiEffect.Message -> {
+                is SignInUiEffect.ErrorOccurred -> {
                     snackbarHostState.showSnackbar(
                         message = context.getString(getMessageErrorFromAuthException(effect.error))
                     )

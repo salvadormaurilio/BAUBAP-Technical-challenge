@@ -18,9 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
-    private val signIn: SignInUseCase
-) : ViewModel() {
+class SignInViewModel @Inject constructor(private val signInUseCase: SignInUseCase) : ViewModel() {
 
     private val _signInUiState = MutableStateFlow(SignInUiState())
     val signInUiState = _signInUiState.asStateFlow()
@@ -32,7 +30,7 @@ class SignInViewModel @Inject constructor(
         when (intent) {
             is SignInUiIntent.IdentifierChanged -> updateSignInUiState(identifier = intent.value, showIdentifierError = false)
             is SignInUiIntent.PinChanged -> updateSignInUiState(pin = intent.value, showPinError = false)
-            SignInUiIntent.ConfirmSignIn -> confirmSignIn()
+            is SignInUiIntent.ConfirmSignIn -> confirmSignIn()
         }
     }
 
@@ -41,17 +39,13 @@ class SignInViewModel @Inject constructor(
 
         viewModelScope.launch {
             val uiState = _signInUiState.value
-            signIn(uiState.identifier, uiState.pin)
+            signInUseCase(uiState.identifier, uiState.pin)
                 .onStart { updateSignInUiState(isLoading = true) }
                 .onCompletion { updateSignInUiState(isLoading = false) }
                 .collect { result ->
                     result.fold(
-                        onSuccess = { id ->
-                            _signInUiEffect.send(SignInUiEffect.Success(id))
-                        },
-                        onFailure = { e ->
-                            _signInUiEffect.send(SignInUiEffect.Message(e))
-                        }
+                        onSuccess = { id -> _signInUiEffect.send(SignInUiEffect.Success(id)) },
+                        onFailure = { e -> _signInUiEffect.send(SignInUiEffect.ErrorOccurred(e)) }
                     )
                 }
         }

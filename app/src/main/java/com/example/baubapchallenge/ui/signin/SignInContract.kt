@@ -18,5 +18,5 @@ sealed interface SignInUiIntent {
 
 sealed interface SignInUiEffect {
     data class Success(val userId: String) : SignInUiEffect
-    data class Message(val error: Throwable) : SignInUiEffect
+    data class ErrorOccurred(val error: Throwable) : SignInUiEffect
 }

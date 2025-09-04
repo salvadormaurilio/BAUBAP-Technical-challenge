@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(private val signUp: SignUpUseCase) : ViewModel() {
+class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCase) : ViewModel() {
 
     private val _signUpUiState = MutableStateFlow(SignUpUiState())
     val signUpUiState = _signUpUiState.asStateFlow()
@@ -40,17 +40,13 @@ class SignUpViewModel @Inject constructor(private val signUp: SignUpUseCase) : V
 
         viewModelScope.launch {
             val uiState = _signUpUiState.value
-            signUp(uiState.phone, uiState.curp, uiState.pin)
+            signUpUseCase(uiState.phone, uiState.curp, uiState.pin)
                 .onStart { updateSingUpUiState(isLoading = true) }
                 .onCompletion { updateSingUpUiState(isLoading = false) }
                 .collect { result ->
                     result.fold(
-                        onSuccess = { id ->
-                            _signUpUiEffect.send(SignUpUiEffect.Success(id))
-                        },
-                        onFailure = { e ->
-                            _signUpUiEffect.send(SignUpUiEffect.Message(e))
-                        }
+                        onSuccess = { id -> _signUpUiEffect.send(SignUpUiEffect.Success(id)) },
+                        onFailure = { e -> _signUpUiEffect.send(SignUpUiEffect.ErrorOccurred(e)) }
                     )
                 }
 
