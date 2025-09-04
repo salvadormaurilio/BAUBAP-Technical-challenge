@@ -74,8 +74,6 @@ private fun NavGraphBuilder.homeScreenNav() {
         route = BaupbapRoute.Home.route,
         arguments = BaupbapRoute.Home.getArguments()
     ) {
-        HomeScreen(
-            userId = it.arguments?.getString(BaupbapRoute.USER_ID_ARGUMENT).orEmpty()
-        )
+        HomeScreen(userId = it.arguments?.getString(BaupbapRoute.USER_ID_ARGUMENT).orEmpty())
     }
 }

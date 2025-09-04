@@ -39,7 +39,7 @@ abstract class AppModule {
 
     @Binds
     @Singleton
-    abstract fun bindCountriesRepository(impl: AuthRepositoryImpl): AuthRepository
+    abstract fun bindAuthRepository(impl: AuthRepositoryImpl): AuthRepository
 
     @Binds
     abstract fun bindSignUpUseCase(impl: SignUpUseCaseImpl): SignUpUseCase

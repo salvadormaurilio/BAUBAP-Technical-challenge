@@ -23,7 +23,7 @@ class SignInViewModel @Inject constructor(private val signInUseCase: SignInUseCa
     private val _signInUiState = MutableStateFlow(SignInUiState())
     val signInUiState = _signInUiState.asStateFlow()
 
-    private val _signInUiEffect = Channel<SignInUiEffect>(capacity = Channel.BUFFERED)
+    private val _signInUiEffect = Channel<SignInUiEffect>()
     val signInUiEffect = _signInUiEffect.receiveAsFlow()
 
     fun handleIntent(intent: SignInUiIntent) {

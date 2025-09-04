@@ -5,12 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.baubapchallenge.domain.GetUserDataUseCase
 import com.example.baubapchallenge.domain.models.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,9 +18,6 @@ class HomeViewModel @Inject constructor(private val getUserDataUseCase: GetUserD
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
-
-    private val _homeUiEffect = Channel<HomeUiEffect>(capacity = Channel.BUFFERED)
-    val homeUiEffect = _homeUiEffect.receiveAsFlow()
 
     fun handleIntent(intent: HomeUiIntent) {
         when (intent) {
@@ -38,7 +33,7 @@ class HomeViewModel @Inject constructor(private val getUserDataUseCase: GetUserD
                 .collect { result ->
                     result.fold(
                         onSuccess = { userData -> updateSignInUiState(userData = userData) },
-                        onFailure = { e -> _homeUiEffect.send(HomeUiEffect.ErrorOccurred(e)) }
+                        onFailure = { e -> updateSignInUiState(error = e) }
                     )
                 }
         }
@@ -46,12 +41,14 @@ class HomeViewModel @Inject constructor(private val getUserDataUseCase: GetUserD
 
     private fun updateSignInUiState(
         isLoading: Boolean? = null,
-        userData: UserData? = null
+        userData: UserData? = null,
+        error: Throwable? = null,
     ) {
         _homeUiState.update {
             it.copy(
                 isLoading = isLoading ?: it.isLoading,
-                userData = userData ?: it.userData
+                userData = userData ?: it.userData,
+                error = error
             )
         }
     }

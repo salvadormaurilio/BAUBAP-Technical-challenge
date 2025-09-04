@@ -42,4 +42,7 @@
     <string name="deposit_accounts_hint">Podrás dar de alta nuevas cuentas al aceptar tu siguiente préstamo.</string>
     <string name="loans_history">Historial de préstamos</string>
     <string name="clabe">CLABE: %1$s</string>
+    <string name="something_went_wrong">Ups, algo salió mal.</string>
+    <string name="retry">Reintentar</string>
+    <string name="user_data_error">Hubo un error al obtener los datos del usuario.</string>
 </resources>
