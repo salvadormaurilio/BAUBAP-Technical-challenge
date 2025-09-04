@@ -65,7 +65,7 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
             showPinError = !isPinValid
         )
 
-        return isPhoneValid && isCurpValid && !isPinValid
+        return isPhoneValid && isCurpValid && isPinValid
     }
 
     private fun updateSingUpUiState(

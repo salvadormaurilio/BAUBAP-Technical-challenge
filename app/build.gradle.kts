@@ -65,6 +65,7 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore.ktx)
