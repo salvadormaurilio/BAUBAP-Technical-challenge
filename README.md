@@ -48,10 +48,38 @@ This project simulates **account registration** and **login** for **Baubap**, us
 
 ---
 
-
 ## 🧪 UI Tests
 
+### 👋 Welcome
+<video src="https://github.com/user-attachments/assets/a5f252ae-30eb-42f6-8b36-e769ce381d01" width="360" controls></video> 
 
+---
+
+###  📝 Sign Up
+
+| Success | Error Fields | Error |
+|-|-|-|
+| <video src="https://github.com/user-attachments/assets/6a17d6d8-de56-49bc-82a7-74dfe6c2d6ed" width="360" controls></video>  | <video src="https://github.com/user-attachments/assets/d6cdb8e2-8bfe-4bcc-b742-4b55e3e28d59" width="600"> width="360" controls></video> | <video src="https://github.com/user-attachments/assets/ae92045a-a5eb-4dec-8194-16739775396b" width="600"> width="360" controls></video> |
+
+---
+
+
+
+
+
+
+###  🔐 Sign In
+
+| Success | Error Fields | Error |
+|-|-|-|
+| <video src="https://github.com/user-attachments/assets/6558a8e2-d1af-4890-8ee9-4d0a1f835e36" width="360" controls></video>  | <video src="https://github.com/user-attachments/assets/1735fb83-1ce5-48fa-8a88-eab65b79c976" width="600"> width="360" controls></video> | <video src="https://github.com/user-attachments/assets/33ee002c-3b94-40d3-bce1-4e926281c38a" width="600"> width="360" controls></video> |
+
+---
+
+
+###   User Data
+
+<video src="https://github.com/user-attachments/assets/47c54679-b3ca-4ef6-8e74-4811a63696fe" width="360" controls></video>
 
 ---
 
@@ -68,6 +96,6 @@ To run the unit tests, use the following command:
 
 ```bash
 ./gradlew testDebugUnitTes
-
+```
 
 
