@@ -18,6 +18,7 @@ This project simulates **account registration** and **login** for **Baubap**, us
   
 ---
 
+
 ## 📌 Technologies & Concepts Used
 
 ### 🛠 Technologies
@@ -47,6 +48,12 @@ This project simulates **account registration** and **login** for **Baubap**, us
 - **Repository pattern**
 
 ---
+
+## 💾 Storage[[[](url)](url)](url)
+
+**Firestore** was used to simulate and manage user authentication.
+
+<img width="2201" height="390" alt="image" src="https://github.com/user-attachments/assets/962565d4-aab2-4472-a137-e499865e07a9" />
 
 ## 🧪 UI Tests
 
