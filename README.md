@@ -23,7 +23,7 @@ This project simulates **account registration** and **login** for **Baubap**, us
 
 ### 🛠 Technologies
 
-- **Kotlin**
+- **Kotlin** as the main language
 - **Coroutines** (including Flow)
 - **Hilt** for dependency injection
 - **Jetpack Compose** for UI

@@ -12,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.baubapchallenge.R
 import com.example.baubapchallenge.core.extensions.empty
@@ -24,6 +25,7 @@ fun AuthTextField(
     label: String = String.empty(),
     showError: Boolean = false,
     error: String = String.empty(),
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onValueChange: (String) -> Unit = {}
 ) {
@@ -47,6 +49,7 @@ fun AuthTextField(
                 )
             }
         },
+        visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions
     )
 }

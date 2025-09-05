@@ -4,6 +4,7 @@ import com.example.baubapchallenge.domain.models.DepositAccount
 import com.example.baubapchallenge.domain.models.UserData
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -57,6 +58,7 @@ class FirestoreClientImpl @Inject constructor(private val firestore: FirebaseFir
     }
 
     override suspend fun getUserData(userId: String): UserData? {
+        delay(1000)
         return UserData(
             phone = "+5212345678",
             email = "correo@baubap.com",
